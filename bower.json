@@ -1,0 +1,26 @@
+{
+  "name": "Movie Builder",
+  "authors": [
+    "marty_trujillo <marty@ilikeemail.com>"
+  ],
+  "description": "Builds Movies",
+  "main": "app.js",
+  "keywords": [
+    "jpgs",
+    "and",
+    "mp3s",
+    "to",
+    "a",
+    "movie"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
