@@ -36,14 +36,6 @@ function beginProcessing(){
 
   function setFileList() {
   console.log(' *********** start setFileList  **********');
-
-
-
-    function addFile(fileName) {
-      //console.log('* '+fileName);
-      listOfFiles.push(fileName);
-    }
-
     //console.log('creating file list: ');
     let promise = new Promise(
       function(resolve, reject){
@@ -53,14 +45,6 @@ function beginProcessing(){
             resolve();
           }
         );
-        //listOfFiles.push('aaaa');
-        /*
-        fs.readdir('raw_photos/raw', function (err, data) {
-          data.map(addFile);
-          resolve();
-          console.log(' *********** end setFileList    **********');
-        });
-        */
       }
     );
     return promise;
@@ -68,8 +52,6 @@ function beginProcessing(){
 
   function copyFiles() {
   console.log(' *********** start copyFiles  **********');
-
-
     function srcDestEqual(src, dest) {
       var isEqual = false;
       var srcData = fs.statSync(src).size;
