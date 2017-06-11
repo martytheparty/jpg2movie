@@ -1,0 +1,3 @@
+function copyFiles(list, destination) {
+
+}
