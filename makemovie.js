@@ -23,11 +23,6 @@ sudo apt-get install graphicsmagick
 */
 
 
-
-
-
-
-
 function beginProcessing(){
   let listOfFiles = [];
   let listOfResizedFiles = [];
@@ -62,7 +57,6 @@ function beginProcessing(){
       return isEqual;
     }
 
-    //console.log('copying files: ');
     function copyFile(file) {
       let promise = new Promise(
         function(resolve, reject){
@@ -75,19 +69,10 @@ function beginProcessing(){
               if (srcDestEqual(source, dest)){
                 fs.stat (dest,
                   function(err, stats) {
-                    // console.log('copy validation complete for: ' + dest);
-                    // console.log(stats);
                     resolve();
                   }
                 );
               }
-
-
-              /*
-                Resolve this when the destination file is the same size as
-                the source file.
-              */
-
             })
           });
 
@@ -100,8 +85,6 @@ function beginProcessing(){
 
     let promiseList = [];
     listOfFiles.map(copyFile);
-
-
 
     let promise = new Promise(
       function(resolve, reject) {
