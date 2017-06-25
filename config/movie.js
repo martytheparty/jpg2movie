@@ -1,6 +1,6 @@
 let videoOptions = {
   fps: 25,
-  loop: .25, // seconds
+  loop: .5, // seconds
   transition: false,
   transitionDuration: .1, // seconds
   videoBitrate: 1024,

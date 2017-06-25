@@ -30,8 +30,7 @@ function beginProcessing(){
   let listOfResizePromises = [];
 
   function setFileList() {
-  console.log(' *********** start setFileList  **********');
-    //console.log('creating file list: ');
+    console.log(' *********** start setFileList  **********');
     let promise = new Promise(
       function(resolve, reject){
         getFileList('raw_photos/raw').then(
@@ -62,8 +61,6 @@ function beginProcessing(){
         function(resolve, reject){
           let source = 'raw_photos/raw/'+file;
           let dest = 'raw_photos/temp/'+file;
-          //console.log('* from ' + source);
-          //console.log('* to ' + dest);
           fs.readFile(source, function(err, data) {
             fs.writeFile(dest, data, function (err) {
               if (srcDestEqual(source, dest)){
