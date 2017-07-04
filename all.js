@@ -13,7 +13,7 @@ let videoOptions = require('./config/movie.js').videoOptions;
 let originalPath = './raw_photos/tempfs';
 let resizePath = './raw_photos/temprs';
 
-let sourceFiles = [];
+let sourceFiles = require('./config/movie.js').sourceFiles;
 let movieFiles = [];
 let filesToDelete = [];
 
@@ -61,13 +61,17 @@ function getListOfFilesToResize() {
   console.log('Getting list of files to resize.');
   let promise = new Promise(
     function(resolve, reject) {
-      getFileList(originalPath).then(
-        function(list){
-          sourceFiles = list;
-          console.log(sourceFiles.length + " files retrieved for resizing.");
-          resolve();
-        }
-      );
+      console.log(sourceFiles.length + " files retrieved for resizing.");
+      // sourceFiles = require('./config/movie.js').sourceFiles;
+      /* The source files have been retrieved from the config file. */
+      resolve();
+      // getFileList(originalPath).then(
+      //   function(list){
+      //     sourceFiles = list;
+      //     console.log(sourceFiles.length + " files retrieved for resizing.");
+      //     resolve();
+      //   }
+      // );
     }
   );
   return promise;
@@ -92,13 +96,12 @@ function getListOfFilesForMovie() {
   console.log('Get list of movie files.');
   let promise = new Promise(
     function(resolve, reject) {
-      getFileList(resizePath).then(
-        function(list) {
-          movieFiles = list;
-          console.log(movieFiles.length + ' files to make into a movie.');
-          resolve();
-        }
-      );
+      for(let i = 0; i < sourceFiles.length; i++){
+        let src = sourceFiles[i].split('/').pop()
+        console.log(resizePath + '/' + src);
+        movieFiles.push(resizePath + '/' + src);
+      }
+      resolve();
     }
   );
   return promise;
@@ -121,7 +124,6 @@ function getListOfFilesForMovie() {
 
 getListOfFilesToDelete()
 .then(deletePreviouslyResizedFiles, chainError)
-.then(getListOfFilesToResize, chainError)
 .then(resizeSourceFiles, chainError)
 .then(getListOfFilesForMovie, chainError)
 .then(makeMovieFromResized, chainError)
