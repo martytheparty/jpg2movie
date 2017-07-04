@@ -36,11 +36,26 @@ function resize(path, destination, prevPromise) {
 
 function resizeFiles(list, destination) {
 
+  /* Use the es6 set to remove duplicates*/
+  /* start sloppy code until I am use to JS sets */
+  let resizeSet = new Set();
+  let resizeArray = [];
   for (let i= 0; i < list.length; i++) {
+    resizeSet.add(list[i]);
+  }
+
+  for (let item of resizeSet) {
+    console.log('adding ' +  item);
+    resizeArray.push(item);
+  }
+  /* end sloppy code until I am use to JS sets */
+
+  for (let i= 0; i < resizeArray.length; i++) {
     if (i > 0) {
-      fileList.push(resize(list[i], destination, fileList[i-1]));
+      let prevPromise = fileList[i-1];
+      fileList.push(resize(resizeArray[i], destination, prevPromise));
     } else {
-      fileList.push(resize(list[i], destination));
+      fileList.push(resize(resizeArray[i], destination));
     }
 
   }
