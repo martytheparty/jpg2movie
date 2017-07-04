@@ -11,8 +11,8 @@
 * node all
 
 ### then a movie will be made into a movie with the following attributes:
-* images src "./raw_photos/tempfs" - defined in all.js
-* song src "./mp3s/insanity.mp3" - defined in all.js
+* images src "./raw_photos/tempfs" - defined in ./config/movie.js
+* song src "./mp3s/insanity.mp3" - defined in ./config/movie.js
 * config ("./config/movie.js")
 {
   fps: 25,
@@ -31,4 +31,4 @@
 ### tweak those to your needs.
 
 #### I am assuming that no one will actually try this... if you do and it doesn't
-work let me know. 
+work let me know.
