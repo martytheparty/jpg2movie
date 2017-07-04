@@ -1,6 +1,6 @@
 let videoOptions = {
   fps: 25,
-  loop: .5, // seconds
+  loop: 2.5, // seconds
   transition: false,
   transitionDuration: .1, // seconds
   videoBitrate: 1024,
@@ -13,3 +13,4 @@ let videoOptions = {
 };
 
 exports.videoOptions = videoOptions;
+exports.mp3Path = "./mp3s/psycho.mp3";

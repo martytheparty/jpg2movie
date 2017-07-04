@@ -6,7 +6,7 @@ let makeMovie = require('./custom_modules/makeMovie').makeMovie;
 let allDone = require('./custom_modules/allDone').allDone;
 
 let videoshow = require('videoshow');
-let songPath = './mp3s/insanity.mp3';
+let songPath = require('./config/movie.js').mp3Path;
 let movieFileName = 'all-movie.mp4'
 let videoOptions = require('./config/movie.js').videoOptions;
 
