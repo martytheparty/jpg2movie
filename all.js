@@ -1,9 +1,11 @@
+let statusList = require('./statusList').status;
 let chainError = require('./custom_modules/chainError').chainError;
 let getFileList = require('./custom_modules/getFileList').getFileList;
 let deleteFiles = require('./custom_modules/deleteFilesInDirectory').deleteFiles;
 let resizeFiles = require('./custom_modules/resizeFiles').resizeFiles;
 let makeMovie = require('./custom_modules/makeMovie').makeMovie;
 let allDone = require('./custom_modules/allDone').allDone;
+let writeStatus = require('./custom_modules/updateStatus').writeStatus;
 
 let videoshow = require('videoshow');
 let songPath = require('./config/movie.js').mp3Path;
@@ -35,7 +37,11 @@ function getListOfFilesToDelete() {
         function(list){
           filesToDelete = list;
           console.log(list.length + " files retrieved for deletion.");
-          resolve();
+          writeStatus('mkm').then(
+            function() {
+              resolve();
+            }, chainError
+          );
         }
       );
     }
@@ -50,7 +56,11 @@ function deletePreviouslyResizedFiles() {
       deleteFiles(filesToDelete).then(
         function(){
           console.log('Deleted ' + filesToDelete.length + ' files.');
-          resolve();
+          writeStatus('dof').then(
+            function() {
+              resolve();
+            }, chainError
+          );
         }
       );
     }
@@ -64,7 +74,11 @@ function getListOfFilesToResize() {
       console.log(sourceFiles.length + " files retrieved for resizing.");
       // sourceFiles = require('./config/movie.js').sourceFiles;
       /* The source files have been retrieved from the config file. */
-      resolve();
+      writeStatus('gtl').then(
+        function() {
+          resolve();
+        }, chainError
+      );
       // getFileList(originalPath).then(
       //   function(list){
       //     sourceFiles = list;
@@ -84,7 +98,11 @@ function resizeSourceFiles() {
       resizeFiles(sourceFiles, resizePath).then(
         function() {
           console.log('Resizing complete');
-          resolve();
+          writeStatus('rsf').then(
+            function() {
+              resolve();
+            }, chainError
+          );
         }
       );
     }
@@ -101,7 +119,11 @@ function getListOfFilesForMovie() {
         console.log(resizePath + '/' + src);
         movieFiles.push(resizePath + '/' + src);
       }
-      resolve();
+      writeStatus('gtl').then(
+        function() {
+          resolve();
+        }, chainError
+      );
     }
   );
   return promise;
@@ -114,7 +136,11 @@ function getListOfFilesForMovie() {
        makeMovie(movieFiles, songPath, videoOptions, movieFileName).then(
          function() {
            console.log('Movie complete.');
-           resolve();
+           writeStatus('mkm').then(
+             function() {
+               resolve();
+             }, chainError
+           );
          }
        );
      }
@@ -122,9 +148,25 @@ function getListOfFilesForMovie() {
    return promise;
  }
 
-getListOfFilesToDelete()
+ function movieComplete() {
+   console.log('Make movies... complete...');
+   let promise = new Promise(
+     function(resolve, reject) {
+       allDone();
+       writeStatus('rdy').then(
+         function() {
+           resolve();
+         }, chainError
+       );
+     }
+   );
+   return promise;
+ }
+
+writeStatus('stg')
+.then(getListOfFilesToDelete, chainError)
 .then(deletePreviouslyResizedFiles, chainError)
 .then(resizeSourceFiles, chainError)
 .then(getListOfFilesForMovie, chainError)
 .then(makeMovieFromResized, chainError)
-.then(allDone, chainError);
+.then(movieComplete, chainError);

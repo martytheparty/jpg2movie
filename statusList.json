@@ -1,0 +1,10 @@
+var status = {
+  "rdy": "ready",
+  "rdl": "retrieving delete list",
+  "dof": "deleting old files",
+  "cpf": "copying files",
+  "rsf": "resizing files",
+  "mkm": "making movie"
+}
+
+exports statusList = status;
