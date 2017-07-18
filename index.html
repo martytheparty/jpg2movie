@@ -1,0 +1,21 @@
+<html>
+  <head><title>Web Sockets</title></head>
+  <body>
+    <div id='msg'></div>
+    <div id='sts'></div>
+
+
+    <script src='node_modules/socket.io-client/dist/socket.io.js'></script>
+    <script>
+      var socket = io.connect('http://localhost:8080');
+      var msg = document.getElementById('msg');
+      var sts = document.getElementById('sts');
+      socket.on('msg', function(info){
+            console.log(info);
+            msg.innerHTML = 'browsers connected: ' + info.msg;
+            sts.innerHTML = 'date time: ' + info.status.dateTime + '<br>status: ' + info.code + ' (' + info.status.status + ')';
+          });
+
+    </script>
+  </body>
+</html>

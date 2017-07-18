@@ -5,9 +5,12 @@
   "main": "makemovie.js",
   "dependencies": {
     "chokidar": "^1.7.0",
+    "express": "^4.15.3",
     "fs-extra": "2.1.2",
     "gm": "^1.23.0",
     "jimp": "^0.2.27",
+    "node-datetime": "^1.0.1",
+    "socket.io": "^2.0.3",
     "videoshow": "^0.1.11"
   },
   "devDependencies": {},

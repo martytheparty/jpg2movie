@@ -9,4 +9,4 @@ var status = {
   stg: "starting"
 }
 
-exports.status = status;
+exports.statusLookup = status;

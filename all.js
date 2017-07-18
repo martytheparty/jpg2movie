@@ -50,17 +50,19 @@ function getListOfFilesToDelete() {
 }
 
 function deletePreviouslyResizedFiles() {
-  console.log('Deleting ' + filesToDelete.length + ' files.');
+  writeStatus('dof').then(
+    function() {
+      console.log('Deleting ' + filesToDelete.length + ' files.');
+    }, chainError
+  );
+
   let promise = new Promise(
     function(resolve, reject) {
       deleteFiles(filesToDelete).then(
         function(){
           console.log('Deleted ' + filesToDelete.length + ' files.');
-          writeStatus('dof').then(
-            function() {
-              resolve();
-            }, chainError
-          );
+          resolve();
+
         }
       );
     }
@@ -92,17 +94,18 @@ function getListOfFilesToResize() {
 }
 
 function resizeSourceFiles() {
-  console.log('Resize files... this usually takes a while.');
+  writeStatus('rsf').then(
+    function() {
+      console.log('Resize files... this usually takes a while.');
+    }, chainError
+  );
+
   let promise = new Promise(
     function(resolve, reject) {
       resizeFiles(sourceFiles, resizePath).then(
         function() {
           console.log('Resizing complete');
-          writeStatus('rsf').then(
-            function() {
-              resolve();
-            }, chainError
-          );
+          resolve();
         }
       );
     }
@@ -130,7 +133,12 @@ function getListOfFilesForMovie() {
 }
 
  function makeMovieFromResized() {
-   console.log('Make movies... this usually takes a while too...');
+
+   writeStatus('mkm').then(
+     function(){
+       console.log('Make movies... this usually takes a while too...');
+     }, chainError
+   );
    let promise = new Promise(
      function(resolve, reject) {
        makeMovie(movieFiles, songPath, videoOptions, movieFileName).then(
