@@ -171,10 +171,14 @@ function getListOfFilesForMovie() {
    return promise;
  }
 
-writeStatus('stg')
-.then(getListOfFilesToDelete, chainError)
-.then(deletePreviouslyResizedFiles, chainError)
-.then(resizeSourceFiles, chainError)
-.then(getListOfFilesForMovie, chainError)
-.then(makeMovieFromResized, chainError)
-.then(movieComplete, chainError);
+function makeAMovie() {
+  writeStatus('stg')
+  .then(getListOfFilesToDelete, chainError)
+  .then(deletePreviouslyResizedFiles, chainError)
+  .then(resizeSourceFiles, chainError)
+  .then(getListOfFilesForMovie, chainError)
+  .then(makeMovieFromResized, chainError)
+  .then(movieComplete, chainError);
+}
+
+makeAMovie();
