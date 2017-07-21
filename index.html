@@ -3,18 +3,32 @@
   <body>
     <div id='msg'></div>
     <div id='sts'></div>
-
-
+    <div id='shell' style="display:none">
+      <span id='btn' style='color:#2222FF;cursor:pointer' onclick="makeMovies()">
+        [Make Movies]
+      </span>
+    </div>
     <script src='node_modules/socket.io-client/dist/socket.io.js'></script>
     <script>
       var socket = io.connect('http://localhost:8080');
       var msg = document.getElementById('msg');
       var sts = document.getElementById('sts');
+      var btn = document.getElementById('shell');
       socket.on('msg', function(info){
             console.log(info);
+            if (info.status.status === 'rdy') {
+              btn.style.display = 'block';
+            } else {
+              btn.style.display = 'none';
+            }
             msg.innerHTML = 'browsers connected: ' + info.msg;
             sts.innerHTML = 'date time: ' + info.status.dateTime + '<br>status: ' + info.code + ' (' + info.status.status + ')';
           });
+
+      function makeMovies() {
+        btn.style.display = 'none';
+        socket.emit('command', 'make_the_movie');
+      }
 
     </script>
   </body>

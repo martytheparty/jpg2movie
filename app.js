@@ -9,15 +9,25 @@ var http = require('http'),
     currentConnectionsCount = 0,
     status = require('./status.json'),
     statusLookup = require('./statusList.js').statusLookup,
-    fs = require('fs');
+    fs = require('fs'),
+    makeMovie = require('./all.js').makeAMovie;
 
-
+    function makeTheMovie() {
+      makeMovie().then(
+        function(){ console.log('succeeded');},
+        function(){ console.log('failed');}
+      );
+    }
 
     io.on('connection', function(client) {
       currentConnectionsCount++;
       console.log("CONNECTION STARTED the current connection count is " + currentConnectionsCount);
       let code = statusLookup[status.status];
       io.emit('msg', { msg: currentConnectionsCount, status: status, code: statusLookup['rdy'] });
+
+      client.on('command', function(msg) {
+        makeTheMovie();
+      });
 
       client.on('disconnect', function () {
           currentConnectionsCount--;
@@ -49,5 +59,6 @@ var http = require('http'),
     });
 
     server.listen(8080);
+
 
     console.log('server listening at http://localhost:8080');

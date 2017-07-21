@@ -172,13 +172,24 @@ function getListOfFilesForMovie() {
  }
 
 function makeAMovie() {
-  writeStatus('stg')
-  .then(getListOfFilesToDelete, chainError)
-  .then(deletePreviouslyResizedFiles, chainError)
-  .then(resizeSourceFiles, chainError)
-  .then(getListOfFilesForMovie, chainError)
-  .then(makeMovieFromResized, chainError)
-  .then(movieComplete, chainError);
+    writeStatus('stg')
+    .then(getListOfFilesToDelete, chainError)
+    .then(deletePreviouslyResizedFiles, chainError)
+    .then(resizeSourceFiles, chainError)
+    .then(getListOfFilesForMovie, chainError)
+    .then(makeMovieFromResized, chainError)
+    .then(movieComplete, chainError);
 }
 
-makeAMovie();
+function start() {
+  let promise = new Promise(
+    function(resolve, reject) {
+      makeAMovie();
+      resolve();
+    }
+  );
+  return promise;
+}
+
+// makeAMovie();
+exports.makeAMovie = start;
