@@ -8,18 +8,30 @@
         [Make Movies]
       </span>
     </div>
+
+    <div id='reset' style="display:none">
+      <span id='btn' style='color:#2222FF;cursor:pointer' onclick="makeMovies()">
+        [reset]
+      </span>
+    </div>
+
+
     <script src='node_modules/socket.io-client/dist/socket.io.js'></script>
     <script>
       var socket = io.connect('http://localhost:8080');
       var msg = document.getElementById('msg');
       var sts = document.getElementById('sts');
       var btn = document.getElementById('shell');
+      var reset = document.getElementById('reset');
+
       socket.on('msg', function(info){
             console.log(info);
             if (info.status.status === 'rdy') {
               btn.style.display = 'block';
+              reset.style.display = 'none';
             } else {
               btn.style.display = 'none';
+              reset.style.display = 'block';
             }
             msg.innerHTML = 'browsers connected: ' + info.msg;
             sts.innerHTML = 'date time: ' + info.status.dateTime + '<br>status: ' + info.code + ' (' + info.status.status + ')';
