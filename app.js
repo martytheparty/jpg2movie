@@ -10,7 +10,8 @@ var http = require('http'),
     status = require('./status.json'),
     statusLookup = require('./statusList.js').statusLookup,
     fs = require('fs'),
-    makeMovie = require('./all.js').makeAMovie;
+    makeMovie = require('./all.js').makeAMovie,
+    resizeFilesCount = 0;
 
     function makeTheMovie() {
       makeMovie().then(
@@ -49,8 +50,11 @@ var http = require('http'),
 
     fs.watch('./raw_photos/temprs', (eventType, filename) => {
       fs.readdir('./raw_photos/temprs', (err, files) => {
-        io.emit('msg', { resizecount: files.length});
-        console.log(files.length);
+        if (files.length !== resizeFilesCount) {
+          io.emit('msg', { resizecount: files.length});
+          resizeFilesCount = files.length;
+          console.log(files.length);
+        }
       });
     })
 
