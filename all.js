@@ -119,7 +119,7 @@ function getListOfFilesForMovie() {
     function(resolve, reject) {
       for(let i = 0; i < sourceFiles.length; i++){
         let src = sourceFiles[i].split('/').pop()
-        console.log(resizePath + '/' + src);
+        // console.log(resizePath + '/' + src);
         movieFiles.push(resizePath + '/' + src);
       }
       writeStatus('gtl').then(

@@ -3,6 +3,14 @@
   <body>
     <div id='msg'></div>
     <div id='sts'></div>
+    <div>
+      <table>
+        <tr>
+          <td>Resize File Count:</td>
+          <td><span id='resize-file-count'></span></td>
+        </tr>
+      </table>
+    </div>
     <div id='shell' style="display:none">
       <span id='btn' style='color:#2222FF;cursor:pointer' onclick="makeMovies()">
         [Make Movies]
@@ -23,10 +31,15 @@
       var sts = document.getElementById('sts');
       var btn = document.getElementById('shell');
       var reset = document.getElementById('reset');
+      var fileCount = document.getElementById('resize-file-count');
 
-      socket.on('msg', function(info){
-            console.log(info);
-            if (info.status.status === 'rdy') {
+      socket.on('msg', function(info) {
+          // console.log('msg', info);
+
+          if (info && info.resizecount) {
+            fileCount.innerHTML = info.resizecount;
+          } else  {
+            if (info && info.status && info.status.status === 'rdy') {
               btn.style.display = 'block';
               reset.style.display = 'none';
             } else {
@@ -34,8 +47,11 @@
               reset.style.display = 'block';
             }
             msg.innerHTML = 'browsers connected: ' + info.msg;
-            sts.innerHTML = 'date time: ' + info.status.dateTime + '<br>status: ' + info.code + ' (' + info.status.status + ')';
-          });
+            sts.innerHTML = 'date time: ' + info.status.dateTime + '<br>status: ' + info.code + ' (' + info.status.status + ')';            
+          }
+
+        }
+      );
 
       function makeMovies() {
         btn.style.display = 'none';

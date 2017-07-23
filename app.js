@@ -42,12 +42,17 @@ var http = require('http'),
         let sts = require('./status.json');
         let code = statusLookup[sts.status];
         io.emit('msg', { msg: currentConnectionsCount, status: sts, code: code });
-        console.log(sts);
       } catch (err) {
         console.log('Partial JSON Read Emit Skipped');
       }
-
     });
+
+    fs.watch('./raw_photos/temprs', (eventType, filename) => {
+      fs.readdir('./raw_photos/temprs', (err, files) => {
+        io.emit('msg', { resizecount: files.length});
+        console.log(files.length);
+      });
+    })
 
 
     app.get('/', function (req, res) {
